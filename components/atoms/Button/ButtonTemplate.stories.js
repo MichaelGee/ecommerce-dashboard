@@ -1,13 +1,25 @@
 import React from 'react';
-import  {PrimaryButton, SecondaryButton}  from './ButtonTemplate';
-import { storiesOf } from '@storybook/react';
-import {  select, text } from '@storybook/addon-knobs';
+import  {ButtonTemplate}  from './ButtonTemplate';
+import {  select } from '@storybook/addon-knobs';
 
 
+export default {
+    title: 'Components/Button',
+    component: ButtonTemplate,
+  };
 
-
-const stories = storiesOf('PrimaryButton', module);
 const sizeOptions = ['small', 'medium', 'large'];
 
-stories.add('Primarybutton', () => <PrimaryButton size={select('Size', sizeOptions, 'normal')} text={text('Text', 'Go to dashboard')} />);
-stories.add('SecondaryButton', () => <SecondaryButton size={select('Size', sizeOptions, 'normal')} text={text('Text', 'Go to dashboard')} />);
+const Template = (args) => <ButtonTemplate {...args} size={select('Size', sizeOptions, 'normal')}/>
+
+export const Primary = Template.bind({});
+Primary.args = {
+    appearance: 'primary',
+    text: 'Login to dashboard'
+}
+
+export const Secondary = Template.bind({});
+Secondary.args = {
+    appearance: 'secondary',
+    text: 'Login to dashboard'
+}

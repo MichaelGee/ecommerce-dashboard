@@ -14,8 +14,8 @@ const style = {
   const ThemeDecorator = storyFn => (
     <ThemeProvider value={theme}>
         <div style={style}>
+        <Global styles={globalStyle}/>
           {storyFn()}
-          <Global styles={globalStyle}/>
         </div>
     </ThemeProvider>
 )

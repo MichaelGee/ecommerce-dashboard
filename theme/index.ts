@@ -1,7 +1,16 @@
 import {defaultTheme} from 'evergreen-ui'
+
+
 const theme = {
    ...defaultTheme,
 // COLORS
+
+// fontFamilies:{
+//   ...defaultTheme.fontFamilies,
+//   display: '"Koh Santepheap", cursive',
+//   mono: '"Koh Santepheap", cursive',
+//   ui: '"Koh Santepheap", cursive'
+// },
 
 components: {
    ...defaultTheme.components,
@@ -13,7 +22,7 @@ components: {
          paddingX: 25,
          paddingY: 0,
          borderRadius: 10,
-         height: 45,
+         height: 40,
          lineHeight: 46,
          backgroundColor: '#06f',
          _hover: {
@@ -25,7 +34,7 @@ components: {
          paddingX: 25,
          paddingY: 0,
          borderRadius: 10,
-         height: 45,
+         height: 40,
          backgroundColor: 'transparent',
          background: '0 0',
          border: 'none',
@@ -38,6 +47,17 @@ components: {
        },
      },
    },
+   Input: {
+     ...defaultTheme.components.Input,
+     appearances:{
+       default:{
+        _focus:{ 
+          boxShadow: 'inset #06f 0 0 0 1px,inset #fff 0 0 0 100px',
+        }
+        
+       }
+     }
+   }
  },
  colors : {
     brand01 : "#30011E",
@@ -117,6 +137,8 @@ components: {
     25: '50px',
  }
 }
+
+
 
 export default theme;
 

@@ -1,22 +1,17 @@
 import React from 'react'
 import { Button } from 'evergreen-ui'
 
-const PrimaryButton = (props) => {
-    const { text } = props;
+interface IButtonTemplate{
+  appearance: any;
+  text: string;
+}
+
+export const ButtonTemplate = ({ text, appearance, ...props }:IButtonTemplate) => {
     return (
-        <Button marginRight={16} appearance="primary" {...props}>
+        <Button marginRight={16} appearance={appearance} {...props}>
             {text}
         </Button>
     )
 }
 
-const SecondaryButton = (props) => {
-    const { text } = props;
-    return (
-        <Button marginRight={16} appearance="secondary" {...props}>
-            {text}
-        </Button>
-    )
-}
 
-export {PrimaryButton, SecondaryButton}
