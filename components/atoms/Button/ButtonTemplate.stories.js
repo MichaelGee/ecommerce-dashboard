@@ -3,7 +3,7 @@ import  {ButtonTemplate}  from './ButtonTemplate';
 import {  select } from '@storybook/addon-knobs';
 
 
-export default {
+const ButtonStory = {
     title: 'Components/Button',
     component: ButtonTemplate,
   };
@@ -23,3 +23,6 @@ Secondary.args = {
     appearance: 'secondary',
     text: 'Login to dashboard'
 }
+
+
+export default ButtonStory;

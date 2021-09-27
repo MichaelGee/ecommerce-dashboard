@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "next.config.js", "jest.config.js", "theme/index.ts"  ],
+, "next.config.js", "jest.config.js", "theme/index.js"  ],
   "exclude": [
     "node_modules"
   ]

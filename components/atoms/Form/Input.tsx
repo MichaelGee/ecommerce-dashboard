@@ -1,4 +1,4 @@
-import {TextInput} from 'evergreen-ui';
+import {TextInput, TextInputAppearance} from 'evergreen-ui';
 import React from 'react';
 
 
@@ -6,7 +6,7 @@ interface IInput {
     placeholder: string;
     value: string | number;
     type: string;
-    appearance: string;
+    appearance: TextInputAppearance;
     required: boolean;
 }
 

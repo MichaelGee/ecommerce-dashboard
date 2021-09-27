@@ -1,9 +1,8 @@
 import React from "react";
 import { Input } from "./Input";
-import { storiesOf } from "@storybook/react";
-import {text} from '@storybook/addon-knobs'
 
-export default {
+
+const InputStory = {
     title: 'Components/Input',
     component: Input,
 }
@@ -19,6 +18,8 @@ InputForm.args = {
     type: "Password",
     placeholder: "Email"
 }
+
+export default InputStory;
 
 
 // const stories = storiesOf('Inputs', module.exports);

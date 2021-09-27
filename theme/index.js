@@ -21,19 +21,22 @@ components: {
          color: 'white',
          paddingX: 25,
          paddingY: 0,
-         borderRadius: 10,
+         borderRadius: 5,
          height: 40,
          lineHeight: 46,
          backgroundColor: '#06f',
          _hover: {
            backgroundColor: '#005ce6',
          },
+         _disabled: {
+            backgroundColor: '#80b3ff'
+         }
        },
        secondary: {
          color: '#000',
          paddingX: 25,
          paddingY: 0,
-         borderRadius: 10,
+         borderRadius: 5,
          height: 40,
          backgroundColor: 'transparent',
          background: '0 0',
