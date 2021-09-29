@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from '@emotion/styled';
 
 const Container = styled.div`
@@ -6,11 +6,17 @@ const Container = styled.div`
  display: flex;
  align-items: center;
  justify-content: center;
+ flex-direction: ${props => props.flexDirection};
 `
 
-export const CenterBox = ({children}) => {
+interface IBox {
+    children: ReactNode,
+    flexDirection: string;
+}
+
+export const CenterBox = ({ children, flexDirection }: IBox) => {
     return (
-        <Container>
+        <Container flexDirection={flexDirection}>
             {children}
         </Container>
     )
