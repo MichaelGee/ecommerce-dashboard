@@ -15,8 +15,10 @@ export const ellipsize = (text, maxlimit) => {
 }
 
 export const validateEmail = (email: string) => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    return re.test(email)
+    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
+}
+export const validatePassword = (password: string) => {
+    return /[0-9a-zA-Z]{6,}/.test(password)
 }
 
 export function durationInSeconds(d) {

@@ -8,12 +8,13 @@ interface IButtonTemplate {
     size: "small" | "medium" | "large"
     full: boolean;
     loading: boolean;
-    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    onClick: any;
+    type: "button" | "reset" | "submit";
 }
 
-export const ButtonTemplate = ({ text, appearance, size, full, loading, onClick, ...props }: IButtonTemplate) => {
+export const ButtonTemplate = ({ text, appearance, size, full, loading, onClick, type, ...props }: IButtonTemplate) => {
     return (
-        <Button marginRight={16} appearance={appearance} isLoading={loading} onClick={onClick} style={{ width: full ? "100%" : "inherit" }} size={size} {...props}>
+        <Button marginRight={16} appearance={appearance} isLoading={loading} type={type} onClick={onClick} style={{ width: full ? "100%" : "inherit" }} size={size} {...props}>
             {text}
         </Button>
     )

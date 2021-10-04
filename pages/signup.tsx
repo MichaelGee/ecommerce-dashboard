@@ -1,4 +1,4 @@
-import { useState, useCallback, ChangeEvent, useContext } from 'react'
+import { useState, useCallback, useEffect, ChangeEvent, useContext, useRef } from 'react'
 import styled from '@emotion/styled';
 import { CenterBox } from 'components/atoms/CenterBox';
 import { Box } from 'rebass';
@@ -6,9 +6,10 @@ import { Input } from 'components/atoms/Form/Input';
 import { ButtonTemplate } from 'components/atoms/Button/ButtonTemplate';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './api/auth/firebase';
-import { validateEmail } from '../util';
+import { validateEmail, validatePassword } from '../util';
 import { useRouter } from 'next/router'
-import { AuthContext } from 'context/AuthContext';
+
+
 
 const Container = styled.div`
   height: 100vh;
@@ -22,87 +23,107 @@ const Title = styled.h1`
 
 const Form = styled.form`
   max-width: 30rem;
-  
 `
+
+const Error = styled.p`
+ font-size: 1.2rem;
+ color: red;
+ margin: 0.5rem 0;
+`
+
+
+
 
 const Signup = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const [loginError, setLoginError] = useState('');
-    const [user] = useContext(AuthContext);
+    const [signUpError, setSignUpError] = useState<string>("");
+    const [emailErrorText, setEmailErrorText] = useState<string>("");
+    const [passwordErrorText, setPasswordErrorText] = useState<string>("");
+    const [emailError, setEmailError] = useState<boolean>(false);
+    const [passwordError, setPasswordError] = useState<boolean>(false);
+    const [confirmPasssword, setConfirmPasssword] = useState<string>("");
+    const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState<string>("");
+    const [confirmError, setConfirmError] = useState<boolean>(false);
     const router = useRouter();
+
 
 
 
     // Validate if the input contains data.
     const validateForm = () => {
         if (!email) {
-            setLoginError('Please input an email address');
+            setEmailErrorText('Please input an email address');
+            setEmailError(true);
             return false;
         }
         if (!validateEmail(email)) {
-            setLoginError('Please input a valid email address');
+            setEmailErrorText('Please input a valid email address');
+            setEmailError(true);
+
+            return false;
+        }
+        if (!validatePassword(password)) {
+            setPasswordErrorText('Password has to be at least 6 characters');
+            setPasswordError(true);
+
             return false;
         }
         if (!password) {
-            setLoginError('Please type a password');
+            setPasswordErrorText('Please type a password');
+            setPasswordError(true);
+
+            return false;
+        }
+        if (password !== confirmPasssword) {
+            setConfirmPasswordErrorText('Passwords dont match');
+            setConfirmError(true);
+
             return false;
         }
         return true;
     };
-    // On sucessfully signing up and checking if the user state is present, this should happen.
-    const onSignupSuccess = () => {
-        if (user) {
-            return router.push('/')
-        }
-    }
 
-    // Actions that should occur on submission of the form.
-    const handleSubmit = useCallback(async e => {
+
+
+    const onSubmit = useCallback(async e => {
         e.preventDefault();
+        console.log(email);
         if (validateForm()) {
             try {
                 setLoading(true);
                 await createUserWithEmailAndPassword(auth, email, password);
-                onSignupSuccess();
+                router.push('/')
             } catch (error) {
                 setLoading(false);
+                setSignUpError(error.message)
                 console.log(error.message);
             }
         }
         // eslint-disable-next-line 
-    }, []);
-
-
-    // Input handlers to get the data.
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value);
-    }
-    const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    }
-    const handleConfirmPassword = (event: ChangeEvent<HTMLInputElement>) => {
-        setConfirmPassword(event.target.value);
-    }
+    }, [email, password, confirmPasssword]);
 
 
     return (
         <Container>
             <CenterBox flexDirection="column">
                 <Title>CREATE ACCOUNT</Title>
-                <Form onSubmit={handleSubmit}>
+                <Form noValidate>
                     <Box mb="1rem">
-                        <Input type="email" value={email} handleChange={handleChange} placeholder="Email" appearance="default" autoComplete="on" required />
+                        <Input name="email" type="email" isInvalid={emailError} value={email} handleChange={event => setEmail(event.target.value)} placeholder="Email" appearance="default" autoComplete="on" required />
+                    </Box>
+                    {emailErrorText && <Error>{emailErrorText}</Error>}
+                    <Box mb="1rem">
+                        <Input name="password" type="password" isInvalid={passwordError} value={password} handleChange={event => setPassword(event.target.value)} placeholder="Password" appearance="default" autoComplete="on" required />
                     </Box>
                     <Box mb="1rem">
-                        <Input type="password" value={password} handleChange={handlePassword} placeholder="Password" appearance="default" autoComplete="on" required />
+                        <Input name="retry-password" type="password" isInvalid={confirmError} value={confirmPasssword} handleChange={event => setConfirmPasssword(event.target.value)} placeholder="Password" appearance="default" autoComplete="on" required />
                     </Box>
-                    <Box mb="1rem">
-                        <Input type="password" value={confirmPassword} handleChange={handleConfirmPassword} placeholder="Retype Password" appearance="default" autoComplete="on" required />
-                    </Box>
-                    <ButtonTemplate loading={loading} onClick={handleSubmit} appearance="primary" text="Create Account" size="small" full />
+                    {confirmPasswordErrorText && <Error>{confirmPasswordErrorText}</Error>}
+                    {passwordErrorText && <Error>{passwordErrorText}</Error>}
+                    {signUpError && <Error>{signUpError}</Error>}
+                    <ButtonTemplate loading={loading} onClick={onSubmit} type="submit" appearance="primary" text="Create Account" size="small" full />
                 </Form>
             </CenterBox>
         </Container>
