@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, ChangeEvent, useContext, useRef } from 'react'
+import { useState, useCallback } from 'react'
 import styled from '@emotion/styled';
 import { CenterBox } from 'components/atoms/CenterBox';
 import { Box } from 'rebass';
@@ -89,7 +89,6 @@ const Signup = () => {
 
     const onSubmit = useCallback(async e => {
         e.preventDefault();
-        console.log(email);
         if (validateForm()) {
             try {
                 setLoading(true);
@@ -109,7 +108,7 @@ const Signup = () => {
         <Container>
             <CenterBox flexDirection="column">
                 <Title>CREATE ACCOUNT</Title>
-                <Form noValidate>
+                <Form>
                     <Box mb="1rem">
                         <Input name="email" type="email" isInvalid={emailError} value={email} handleChange={event => setEmail(event.target.value)} placeholder="Email" appearance="default" autoComplete="on" required />
                     </Box>
