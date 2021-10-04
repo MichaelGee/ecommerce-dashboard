@@ -3,6 +3,9 @@ import styled from '@emotion/styled'
 import { SettingIcon } from '../../../icons/SettingIcon'
 import { PowerIcon } from '../../../icons/PowerIcon'
 import { HomeIcon } from '../../../icons/HomeIcon'
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../pages/api/auth/firebase';
+import { useRouter } from 'next/router'
 
 const Container = styled.div`
  max-width: 50rem;
@@ -43,10 +46,6 @@ const Link = styled.li`
  }
 `
 
-const Menus = styled.div`
- display: flex;
- flex-direction: column;
-`
 
 const Logout = styled.div`
  
@@ -54,9 +53,17 @@ const Logout = styled.div`
 
 
 export const Sidebar = () => {
+    const router = useRouter();
+    const logout = async () => {
+        try {
+            await signOut(auth);
+            router.push('/login')
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
     return (
         <Container>
-
             <List>
                 <Link><HomeIcon size="1.6rem" /> Home</Link>
                 <Link><SettingIcon size="1.6rem" /> Home</Link>
@@ -65,7 +72,7 @@ export const Sidebar = () => {
                 <Link><SettingIcon size="1.6rem" /> Home</Link>
                 <Link><SettingIcon size="1.6rem" /> Settings</Link>
             </List>
-            <Logout>
+            <Logout onClick={logout}>
                 <Link><PowerIcon size="1.6rem" /> Logout</Link>
             </Logout>
         </Container>
