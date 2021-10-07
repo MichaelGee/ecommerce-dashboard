@@ -13,9 +13,11 @@ import { useRouter } from 'next/router'
 
 const Container = styled.div`
   height: 100vh;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
+
 const Title = styled.h1`
  text-align: center;
  margin-bottom: 1rem;

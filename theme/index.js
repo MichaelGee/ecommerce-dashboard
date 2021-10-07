@@ -22,7 +22,6 @@ const theme = {
                     paddingY: 0,
                     borderRadius: 5,
                     height: 40,
-                    lineHeight: 46,
                     backgroundColor: "#06f",
                     _hover: {
                         backgroundColor: "#005ce6",
@@ -41,7 +40,6 @@ const theme = {
                     background: "0 0",
                     border: "none",
                     boxShadow: "inset rgb(0 0 0 / 15%) 0 0 0 1px",
-                    lineHeight: 46,
                     _hover: {
                         boxShadow: "inset rgb(0 0 0 / 30%) 0 0 0 1px",
                     },

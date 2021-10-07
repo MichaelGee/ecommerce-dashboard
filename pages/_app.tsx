@@ -3,18 +3,24 @@ import globalStyle from "../GlobalStyle";
 import '../styles/globals.css'
 import { ThemeProvider } from 'evergreen-ui'
 import theme from '../theme';
-import { AuthProvider } from '../context/AuthContext';
-
+import { AuthProvider } from 'context/AuthContext';
+import { Provider as StyletronProvider } from 'styletron-react'
+import { Styletron } from '../styletron.js'
+import { ModalProvider } from 'context/ModalContext';
 
 
 function MyApp({ Component, pageProps }) {
   return (<>
-    <ThemeProvider value={theme}>
-      <AuthProvider>
-        <Global styles={globalStyle} />
-        <Component {...pageProps} />
-      </AuthProvider>
-    </ThemeProvider>
+    <StyletronProvider value={Styletron}>
+      <ThemeProvider value={theme}>
+        <ModalProvider>
+          <AuthProvider>
+            <Global styles={globalStyle} />
+            <Component {...pageProps} />
+          </AuthProvider>
+        </ModalProvider>
+      </ThemeProvider>
+    </StyletronProvider>
   </>)
 }
 
