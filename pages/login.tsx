@@ -103,7 +103,7 @@ const Login = () => {
           </Box>
           {passwordErrorText && <Error>{passwordErrorText}</Error>}
           {signUpError && <Error>{signUpError}</Error>}
-          <ButtonTemplate loading={loading} onClick={onSubmit} type="submit" appearance="primary" text="Create Account" size="small" full />
+          <ButtonTemplate loading={loading} onClick={onSubmit} type="submit" appearance="primary" text="Login" size="small" full />
         </Form>
       </CenterBox>
     </Container>
