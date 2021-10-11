@@ -15,7 +15,7 @@ export default function Home() {
   // const [user] = React.useContext(AuthContext);
   return (
     <div>
-      <Sidebar />
+      {/* <Sidebar /> */}
       {/* <UserAvatar name={user?.email || user?.displayName} size={40} src={user?.photoURL} /> */}
       {/* <button onClick={toggleModal}>Click my ass</button>
       <UploadModal isOpen={modal} onClose={toggleModal} /> */}

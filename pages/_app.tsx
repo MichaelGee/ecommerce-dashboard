@@ -1,3 +1,4 @@
+import React from 'react'
 import { Global } from "@emotion/react";
 import globalStyle from "../GlobalStyle";
 import '../styles/globals.css'
@@ -7,7 +8,7 @@ import { AuthProvider } from 'context/AuthContext';
 import { Provider as StyletronProvider } from 'styletron-react'
 import { Styletron } from '../styletron.js'
 import { ModalProvider } from 'context/ModalContext';
-
+import { Layout } from 'components/organisms/Layout';
 
 function MyApp({ Component, pageProps }) {
   return (<>
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }) {
         <ModalProvider>
           <AuthProvider>
             <Global styles={globalStyle} />
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </AuthProvider>
         </ModalProvider>
       </ThemeProvider>

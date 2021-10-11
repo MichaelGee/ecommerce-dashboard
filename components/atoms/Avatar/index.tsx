@@ -6,13 +6,14 @@ type IAvatar = {
     name: string;
     size: number;
     src: string;
+    color: string;
 }
 
-export const UserAvatar = ({ name, size, src }: IAvatar) => {
+export const UserAvatar = ({ name, size, src, color }: IAvatar) => {
 
     return (
         <React.Fragment>
-            <Avatar name={name} size={size} src={src} />
+            <Avatar name={name} size={size} src={src} color={color} />
         </React.Fragment>
     )
 }
