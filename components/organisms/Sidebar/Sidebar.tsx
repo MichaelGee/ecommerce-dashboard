@@ -69,7 +69,7 @@ export const Sidebar = () => {
         <Container>
             <List>
                 <Link><HomeIcon size="1.6rem" /> Home</Link>
-                <Link><UploadIcon size="1.6rem" /> Uploads</Link>
+                <Link onClick={() => router.push('/upload')} ><UploadIcon size="1.6rem" /> Uploads</Link>
                 {/* <Link><SettingIcon size="1.6rem" /> Home</Link>
                 <Link><SettingIcon size="1.6rem" /> Home</Link>
                 <Link><SettingIcon size="1.6rem" /> Home</Link> */}

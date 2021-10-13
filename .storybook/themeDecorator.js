@@ -13,6 +13,7 @@ const style = {
   alignItems: 'center',
   padding: '2.5rem 5rem',
 };
+
 const ThemeDecorator = (storyFn) => (
   <ThemeProvider value={theme}>
     <div style={style}>

@@ -11,12 +11,14 @@ type IInput = {
     handleChange: (event: ChangeEvent<HTMLInputElement>) => void,
     isInvalid: boolean,
     name: string,
+    width: string,
+    accept: string,
 }
 
-export const Input = ({ placeholder, value, type, appearance, required, autoComplete, handleChange, isInvalid, name }: IInput) => {
+export const Input = ({ placeholder, value, type, appearance, required, autoComplete, handleChange, isInvalid, name, width, accept }: IInput) => {
     return (
         <Fragment>
-            <TextInput name={name} value={value} placeholder={placeholder} isInvalid={isInvalid} onChange={handleChange} type={type} appearance={appearance} autoComplete={autoComplete} required={required} />
+            <TextInput name={name} value={value} placeholder={placeholder} isInvalid={isInvalid} onChange={handleChange} accept={accept} type={type} appearance={appearance} autoComplete={autoComplete} width={width} required={required} />
         </Fragment>
     )
 }

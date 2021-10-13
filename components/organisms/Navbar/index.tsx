@@ -11,7 +11,7 @@ const Container = styled.div`
   padding: 1rem 4rem;
   width: 100%;
   position: fixed;
-  left: 0;
+  top: 0;
   right: 0;
 `
 const Name = styled.h1`
