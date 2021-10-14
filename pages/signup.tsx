@@ -1,11 +1,12 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import styled from '@emotion/styled';
 import { CenterBox } from 'components/atoms/CenterBox';
 import { Box } from 'rebass';
 import { Input } from 'components/atoms/Form/Input';
 import { ButtonTemplate } from 'components/atoms/Button/ButtonTemplate';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './api/auth/firebase';
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from './api/auth/firebase';
 import { validateEmail, validatePassword } from '../util';
 import { useRouter } from 'next/router'
 
@@ -48,6 +49,7 @@ const Signup = () => {
     const [confirmPasssword, setConfirmPasssword] = useState<string>("");
     const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState<string>("");
     const [confirmError, setConfirmError] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string>("");
     const router = useRouter();
 
 
@@ -94,7 +96,15 @@ const Signup = () => {
         if (validateForm()) {
             try {
                 setLoading(true);
-                await createUserWithEmailAndPassword(auth, email, password);
+                //Create a user account
+                await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                    // Signed in, then get user cridentials
+                    const user = userCredential.user;
+                    //Get user id
+                    setUserId(user.uid);
+                }).catch((error) => {
+                    console.log(error.message);
+                });
                 router.push('/')
             } catch (error) {
                 setLoading(false);
@@ -104,6 +114,16 @@ const Signup = () => {
         }
         // eslint-disable-next-line 
     }, [email, password, confirmPasssword]);
+
+    useEffect(() => {
+        //Create a user db on firestore with the users unique ID
+        (async () => {
+            await setDoc(doc(db, "users", "user"), {
+                //Create user id in user collection in DB
+                uid: userId,
+            })
+        })()
+    }, [userId])
 
 
     return (
@@ -119,7 +139,7 @@ const Signup = () => {
                         <Input name="password" type="password" isInvalid={passwordError} value={password} handleChange={event => setPassword(event.target.value)} placeholder="Password" appearance="default" autoComplete="on" required />
                     </Box>
                     <Box mb="1rem">
-                        <Input name="retry-password" type="password" isInvalid={confirmError} value={confirmPasssword} handleChange={event => setConfirmPasssword(event.target.value)} placeholder="Password" appearance="default" autoComplete="on" required />
+                        <Input name="retry-password" type="password" isInvalid={confirmError} value={confirmPasssword} handleChange={event => setConfirmPasssword(event.target.value)} placeholder="Confirm Password" appearance="default" autoComplete="on" required />
                     </Box>
                     {confirmPasswordErrorText && <Error>{confirmPasswordErrorText}</Error>}
                     {passwordErrorText && <Error>{passwordErrorText}</Error>}

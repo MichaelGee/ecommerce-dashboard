@@ -25,7 +25,7 @@ export default function UploadModal({ isOpen, onClose }: ILoginForm) {
     const uploadImages = () => {
         const storageRef = ref(storage, 'images/' + id);
         uploadBytes(storageRef, mediaFile).then((snapshot) => {
-            console.log(snapshot);
+            console.log('upload successful');
         });
 
     }
