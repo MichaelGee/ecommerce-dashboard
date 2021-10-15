@@ -5,8 +5,7 @@ import { Box } from 'rebass';
 import { Input } from 'components/atoms/Form/Input';
 import { ButtonTemplate } from 'components/atoms/Button/ButtonTemplate';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from './api/auth/firebase';
+import { auth } from './api/auth/firebase';
 import { validateEmail, validatePassword } from '../util';
 import { useRouter } from 'next/router'
 
@@ -49,11 +48,7 @@ const Signup = () => {
     const [confirmPasssword, setConfirmPasssword] = useState<string>("");
     const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState<string>("");
     const [confirmError, setConfirmError] = useState<boolean>(false);
-    const [userId, setUserId] = useState<string>("");
     const router = useRouter();
-
-
-
 
     // Validate if the input contains data.
     const validateForm = () => {
@@ -97,15 +92,8 @@ const Signup = () => {
             try {
                 setLoading(true);
                 //Create a user account
-                await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-                    // Signed in, then get user cridentials
-                    const user = userCredential.user;
-                    //Get user id
-                    setUserId(user.uid);
-                }).catch((error) => {
-                    console.log(error.message);
-                });
-                router.push('/')
+                const { user } =  await createUserWithEmailAndPassword(auth, email, password);
+                 router.push('/')
             } catch (error) {
                 setLoading(false);
                 setSignUpError(error.message)
@@ -115,15 +103,16 @@ const Signup = () => {
         // eslint-disable-next-line 
     }, [email, password, confirmPasssword]);
 
-    useEffect(() => {
-        //Create a user db on firestore with the users unique ID
-        (async () => {
-            await setDoc(doc(db, "users", "user"), {
-                //Create user id in user collection in DB
-                uid: userId,
-            })
-        })()
-    }, [userId])
+    // useEffect(() => {
+    //     //Create a user db on firestore with the users unique ID
+    //     (async () => {
+    //         await setDoc(doc(db, "users", `${userInfo?.uid}`), {
+    //                 email: userInfo.email,
+    //                 uid: userInfo.uid
+    //              });   
+
+    //     })()
+    // }, [userInfo])
 
 
     return (

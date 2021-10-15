@@ -9,10 +9,22 @@ import { useContext } from 'react';
 import UploadModal from 'components/organisms/Modal/UploadModal'
 import { UserAvatar } from 'components/atoms/Avatar'
 import { AuthContext } from 'context/AuthContext';
+import { doc, setDoc } from "firebase/firestore";
+import { db } from './api/auth/firebase';
 
 export default function Home() {
   // const { modal, toggleModal } = useContext(ModalContext);
-  // const [user] = React.useContext(AuthContext);
+   const [user] = React.useContext(AuthContext);
+
+   React.useEffect(() => {
+        //Create a user db on firestore with the users unique ID
+        (async () => {
+            await setDoc(doc(db, "users", user.uid), {
+                    email: user.email,
+                    uid: user.uid
+                 });   
+        })()
+    }, [user])
   return (
     <div>
       {/* <Sidebar /> */}
