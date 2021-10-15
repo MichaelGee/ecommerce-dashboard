@@ -1,11 +1,12 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import styled from '@emotion/styled';
 import { CenterBox } from 'components/atoms/CenterBox';
 import { Box } from 'rebass';
 import { Input } from 'components/atoms/Form/Input';
 import { ButtonTemplate } from 'components/atoms/Button/ButtonTemplate';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './api/auth/firebase';
+import { auth, db } from './api/auth/firebase';
+import { doc, setDoc } from "firebase/firestore";
 import { validateEmail, validatePassword } from '../util';
 import { useRouter } from 'next/router'
 
@@ -48,6 +49,7 @@ const Signup = () => {
     const [confirmPasssword, setConfirmPasssword] = useState<string>("");
     const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState<string>("");
     const [confirmError, setConfirmError] = useState<boolean>(false);
+    const [userInfo, setUserInfo] = useState({ email: '', uid: '' });
     const router = useRouter();
 
     // Validate if the input contains data.
@@ -84,7 +86,14 @@ const Signup = () => {
         return true;
     };
 
-
+    const createUserDB = async (email, id) => {
+        if (id) {
+            await setDoc(doc(db, "users", id), {
+                email: email,
+                uid: id
+            });
+        }
+    }
 
     const onSubmit = useCallback(async e => {
         e.preventDefault();
@@ -92,8 +101,10 @@ const Signup = () => {
             try {
                 setLoading(true);
                 //Create a user account
-                const { user } =  await createUserWithEmailAndPassword(auth, email, password);
-                 router.push('/')
+                const { user } = await createUserWithEmailAndPassword(auth, email, password);
+                setUserInfo({ ...userInfo, email: user.email, uid: user.uid });
+                await createUserDB(user.email, user.uid);
+                router.push('/')
             } catch (error) {
                 setLoading(false);
                 setSignUpError(error.message)
@@ -102,18 +113,6 @@ const Signup = () => {
         }
         // eslint-disable-next-line 
     }, [email, password, confirmPasssword]);
-
-    // useEffect(() => {
-    //     //Create a user db on firestore with the users unique ID
-    //     (async () => {
-    //         await setDoc(doc(db, "users", `${userInfo?.uid}`), {
-    //                 email: userInfo.email,
-    //                 uid: userInfo.uid
-    //              });   
-
-    //     })()
-    // }, [userInfo])
-
 
     return (
         <Container>
